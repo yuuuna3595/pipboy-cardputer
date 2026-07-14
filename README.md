@@ -62,33 +62,17 @@
 
 ## 🚀 快速开始
 
-### 方式一：浏览器一键烧录 (推荐)
+### 浏览器一键烧录
 
-无需安装任何软件。打开 [烧录页面](https://raw.githubusercontent.com/yuuuna3595/pipboy-cardputer/master/index.html)，用 Chrome 或 Edge 浏览器，插上 USB-C 线，点击 Install 即可。
+无需安装任何软件，Chrome 或 Edge 浏览器即可完成烧录。
 
-> ⚠️ 首次使用需在浏览器弹窗中选择串口设备并授权。
+1. 下载本仓库（`git clone` 或 GitHub 页面 Download ZIP）
+2. 用 Chrome / Edge 打开 `index.html`
+3. 插上 USB-C 线连接 Cardputer
+4. 点击 **CONNECT** → 在弹窗中选择串口设备
+5. 点击 **INSTALL** → 等待进度条走完 → 拔线重启
 
-### 方式二：Arduino IDE (二次开发)
-
-- **Arduino IDE** (2.x 或更新)
-- ESP32-S3 开发板支持
-
-#### 依赖库 (通过 Arduino Library Manager 安装)
-
-```
-- M5Cardputer
-- Preferences (内置)
-- WiFi (内置)
-- SPI (内置)
-- SD (内置)
-```
-
-### 烧录步骤
-
-1. 打开 Arduino IDE，选择开发板：**ESP32S3 Dev Module**（或 M5Stack Cardputer）
-2. 打开 `pipboy_cardputer_v1_0.ino`
-3. 确认 Flash Size 设为 8MB（Tools → Flash Size → 8MB）
-4. 烧录并重启
+> ⚠️ 首次使用需在浏览器弹窗中选择串口设备并授权。仅支持 Chrome / Edge（需 Web Serial API）。
 
 ### 首次启动
 
@@ -126,18 +110,22 @@ pipboy-cardputer/
 ├── .gitignore
 ├── LICENSE               # MIT
 ├── README.md
-├── images/               # 展示图片素材
-│   ├── 01_cover.jpg
-│   ├── 02_intro.jpg
-│   ├── 03_modules.jpg
-│   ├── 04_longterm.jpg
-│   ├── 05_health.jpg
-│   ├── 06_growth.jpg
-│   ├── 07_connect.jpg
-│   └── 08_ending.jpg
-└── pipboy_cardputer_v1_0/  # Arduino 工程
-    ├── pipboy_cardputer_v1_0.ino   # 主固件 (~4,000 行)
-    └── icons_25x25_1bit.h          # 48 个装备图标
+├── index.html            # 浏览器烧录页面 (ESP Web Tools)
+├── firmware/             # 预编译固件
+│   ├── manifest.json     # ESP Web Tools 烧录清单
+│   ├── pipboy_cardputer_v1_0.ino.bin          # 主程序
+│   ├── pipboy_cardputer_v1_0.ino.bootloader.bin
+│   ├── pipboy_cardputer_v1_0.ino.partitions.bin
+│   └── boot_app0.bin
+└── images/               # 展示图片素材
+    ├── 01_cover.jpg
+    ├── 02_intro.jpg
+    ├── 03_modules.jpg
+    ├── 04_longterm.jpg
+    ├── 05_health.jpg
+    ├── 06_growth.jpg
+    ├── 07_connect.jpg
+    └── 08_ending.jpg
 ```
 
 ---

@@ -1,16 +1,8 @@
-# Arduino / ESP32
-build/
-*.bin
-!firmware/*.bin
+# Firmware build artifacts (only pre-compiled bins in firmware/ are tracked)
 *.elf
 *.map
 *.hex
 *.merged.bin
-
-# PlatformIO
-.pio/
-.pioenvs/
-.piolibdeps/
 
 # IDE & Editor
 .vscode/
