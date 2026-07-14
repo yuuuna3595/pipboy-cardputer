@@ -1,6 +1,6 @@
 /**
  * ╔══════════════════════════════════════════════════════════╗
- * ║          PIP-BOY 3000  TERMINAL  OPERATING  SYSTEM       ║
+ * ║          PIPBOY  TERMINAL  OPERATING  SYSTEM             ║
  * ║              VAULT-TEC  CERTIFIED  v4.3.0                ║
  * ╠══════════════════════════════════════════════════════════╣
  * ║  Target : M5Stack Cardputer Adv (ESP32-S3)              ║
@@ -1255,7 +1255,7 @@ static void drawStatFull() {
     d.setTextColor(PIP_COL_GREEN, PIP_COL_BG);
     d.setFont(&fonts::Font0);
     d.setCursor(3, 17);
-    d.print("> PIP-BOY 3000");
+    d.print("> PIPBOY");
 
     drawStatClock();
     drawVaultBoyHead(8, 67);
@@ -2300,7 +2300,7 @@ static void drawBootSplash() {
     drawTextCenter(10, "VAULT-TEC", PIP_COL_GREEN);
 
     d.setFont(&fonts::Font0);
-    drawTextCenter(35, "PIP-BOY 3000", PIP_COL_GREEN);
+    drawTextCenter(35, "PIPBOY", PIP_COL_GREEN);
     drawTextCenter(45, "Terminal OS v4.1.8", PIP_COL_DIM);
 
     drawVaultBoy((SCREEN_W - 55) / 2, 42);
