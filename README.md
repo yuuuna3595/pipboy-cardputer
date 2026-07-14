@@ -66,13 +66,12 @@
 
 无需安装任何软件，Chrome 或 Edge 浏览器即可完成烧录。
 
-1. 下载本仓库（`git clone` 或 GitHub 页面 Download ZIP）
-2. 用 Chrome / Edge 打开 `index.html`
-3. 插上 USB-C 线连接 Cardputer
-4. 点击 **CONNECT** → 在弹窗中选择串口设备
-5. 点击 **INSTALL** → 等待进度条走完 → 拔线重启
+1. 打开烧录页面：**https://yuuuna3595.github.io/pipboy-cardputer/**
+2. 插上 USB-C 线连接 Cardputer
+3. 点击 **CONNECT** → 在弹窗中选择串口设备
+4. 点击 **INSTALL** → 等待进度条走完 → 拔线重启
 
-> ⚠️ 首次使用需在浏览器弹窗中选择串口设备并授权。仅支持 Chrome / Edge（需 Web Serial API）。
+> ⚠️ 仅支持 Chrome / Edge（需 Web Serial API）。首次使用需在浏览器弹窗中选择串口设备并授权。
 
 ### 首次启动
 
