@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pipboy-cardputer — Flash Tool</title>
+  <meta name="description" content="Browser-based firmware flasher for pipboy-cardputer on M5Stack Cardputer Adv. No drivers, no IDE — just connect and flash.">
+  <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+  <style>
+    /* ═══════════════════════════════════════
+       Claude-inspired Minimalist
+       pipboy-cardputer Flash Tool
+       ═══════════════════════════════════════ */
+
+    :root {
+      --bg:        #faf8f4;
+      --surface:   #ffffff;
+      --text:      #292524;
+      --muted:     #78716c;
+      --subtle:    #f0eee7;
+      --border:    #e7e5e2;
+      --accent:    #d97706;
+      --accent-hv: #b45309;
+      --success:   #059669;
+      --danger:    #dc2626;
+      --radius:    12px;
+      --radius-sm: 8px;
+      --shadow:    0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.03);
+      --max-w:     680px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.625;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 48px 0 56px;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .hero h1 span {
+      color: var(--accent);
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--border);
+      margin: 0 auto 48px;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ── Feature grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+    .feature-emoji {
+      font-size: 24px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .feature-card p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Flash card ── */
+    .flash-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .flash-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .flash-card > p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .step {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--subtle);
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+    .step span {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* ── ESP Web Tools override ── */
+    .installer-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    esp-web-install-button {
+      --esp-tools-button-color: var(--accent);
+      --esp-tools-button-color-hover: var(--accent-hv);
+      --esp-tools-button-text-color: #fff;
+      --esp-tools-button-text-color-hover: #fff;
+      --esp-tools-button-border-radius: var(--radius-sm);
+      --esp-tools-button-font-size: 14px;
+      --esp-tools-button-font-weight: 600;
+      --esp-tools-button-padding: 10px 24px;
+      --esp-tools-progress-color: var(--accent);
+      display: inline-block;
+    }
+    esp-web-install-button::part(button) {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    esp-web-install-button:not([active])::part(button) {
+      background: var(--accent);
+    }
+    esp-web-install-button[active]::part(button) {
+      background: var(--accent-hv);
+    }
+
+    /* ── Status indicator ── */
+    #status-box {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #status-box .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+    #status-box .dot.connected { background: var(--success); }
+    #status-box .dot.error    { background: var(--danger); }
+    #status-box .dot.busy     { background: var(--accent); animation: pulse 1.2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ── Progress ── */
+    #progress {
+      margin-top: 16px;
+      display: none;
+    }
+    #progress.visible { display: block; }
+    #progress-bar-track {
+      height: 6px;
+      background: var(--subtle);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    #progress-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 100px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    #progress-text {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── Requisites ── */
+    .requisites {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .req-item {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .req-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 40px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps { flex-direction: column; gap: 12px; }
+      .requisites { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 30px; }
+      main { padding: 40px 16px 60px; }
+    }
+    @media (max-width: 400px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .requisites { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero">
+    <div class="hero-badge">M5Stack Cardputer Adv</div>
+    <h1>pipboy-<span>cardputer</span></h1>
+    <p>
+      A personal terminal that grows old with you.<br>
+      Record time, body, gear, and thoughts — on a tiny 1.14&Prime; screen
+      that never demands your attention.
+    </p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══ Features ═══ -->
+  <p class="section-title">Six modules, one companion</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-emoji">📊</span>
+      <h3>STAT</h3>
+      <p>S.P.E.C.I.A.L. attributes + weight tracking over time</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">🎒</span>
+      <h3>INV</h3>
+      <p>Equipment with 180-day aging &amp; auto stat bonuses</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">☕</span>
+      <h3>EQIP</h3>
+      <p>Caffeine metabolism tracker (5h half-life) + calories</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">📡</span>
+      <h3>RADIO</h3>
+      <p>LoRa peer-to-peer walkie-talkie — no cell signal needed</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">📝</span>
+      <h3>SNAP</h3>
+      <p>Daily memos with timestamps, auto-save on exit</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-emoji">💾</span>
+      <h3>DATA</h3>
+      <p>All records centralized — profiles, gear, memos, screenshots</p>
+    </div>
+  </div>
+
+  <!-- ═══ Flash section ═══ -->
+  <section class="flash-card">
+    <h2>Flash to your Cardputer</h2>
+    <p>
+      No Arduino IDE required. Plug in your device via USB-C and click install.
+      Works with Chrome, Edge, and any Chromium-based browser.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <strong>Connect USB-C</strong>
+          <span>Plug your Cardputer into your computer</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <strong>Select Port</strong>
+          <span>Pick your device from the browser dialog</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <strong>Click Install</strong>
+          <span>Firmware writes in ~30 seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="installer-wrapper">
+      <esp-web-install-button
+        id="flasher"
+        manifest="firmware/manifest.json">
+      </esp-web-install-button>
+      <div id="status-box">
+        <span class="dot" id="status-dot"></span>
+        <span id="status-label">Ready. Connect your device.</span>
+      </div>
+    </div>
+
+    <div id="progress">
+      <div id="progress-bar-track">
+        <div id="progress-bar-fill"></div>
+      </div>
+      <div id="progress-text">0%</div>
+    </div>
+
+    <div class="requisites">
+      <div class="req-item">
+        <span class="req-icon">🔌</span> USB-C cable
+      </div>
+      <div class="req-item">
+        <span class="req-icon">🌐</span> Chrome / Edge
+      </div>
+      <div class="req-item">
+        <span class="req-icon">📟</span> Cardputer Adv
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer>
+    <p>
+      <a href="https://github.com/yuuuna3595/pipboy-cardputer" target="_blank" rel="noopener">GitHub</a>
+      &nbsp;&middot;&nbsp; MIT License
+      &nbsp;&middot;&nbsp; v1.0
+    </p>
+    <p style="margin-top:4px;color:var(--border)">Made with care. No telemetry, no tracking.</p>
+  </footer>
+
+</main>
+
+<script type="module">
+  // ── ESP Web Tools event handlers ──
+  const flasher   = document.getElementById('flasher');
+  const dot       = document.getElementById('status-dot');
+  const label     = document.getElementById('status-label');
+  const progress  = document.getElementById('progress');
+  const barFill   = document.getElementById('progress-bar-fill');
+  const barText   = document.getElementById('progress-text');
+
+  const statuses = {
+    idle:        { cls: '',           text: 'Ready. Connect your device.' },
+    connecting:  { cls: 'busy',       text: 'Connecting to device\u2026' },
+    connected:   { cls: 'connected',  text: 'Device connected. Click Install to flash.' },
+    installing:  { cls: 'busy',       text: 'Writing firmware\u2026' },
+    finished:    { cls: 'connected',  text: 'Firmware installed successfully! Reboot your Cardputer.' },
+    error:       { cls: 'error',      text: 'An error occurred. Please reconnect and try again.' },
+    unsupported: { cls: 'error',      text: 'Your browser does not support Web Serial. Please use Chrome or Edge.' },
+  };
+
+  function setStatus(key, extra = '') {
+    const s = statuses[key] || statuses['idle'];
+    dot.className = 'dot ' + s.cls;
+    label.textContent = s.text + (extra ? ' ' + extra : '');
+  }
+
+  flasher.addEventListener('state-changed', (ev) => {
+    const state = ev.detail;
+
+    if (state.manifestParsing) {
+      setStatus('connecting', '(loading manifest)');
+    } else if (state.portPicked) {
+      setStatus('connected');
+    } else if (state.flashing) {
+      setStatus('installing');
+      progress.classList.add('visible');
+    } else if (state.erasing) {
+      setStatus('installing', '(erasing)');
+    } else if (state.done) {
+      setStatus('finished');
+      progress.classList.remove('visible');
+    } else if (state.error) {
+      setStatus('error');
+      progress.classList.remove('visible');
+    }
+  });
+
+  // Update progress bar
+  flasher.addEventListener('progress', (ev) => {
+    const pct = ev.detail.percentage;
+    barFill.style.width = Math.round(pct) + '%';
+    barText.textContent = Math.round(pct) + '%';
+  });
+
+  // Handle unsupported browser
+  if (!('serial' in navigator)) {
+    setStatus('unsupported');
+    flasher.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

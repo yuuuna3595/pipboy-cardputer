@@ -1,0 +1,29 @@
+{
+  "name": "pipboy-cardputer",
+  "version": "1.0.0",
+  "home_assistant_domain": "esphome",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        {
+          "path": "pipboy_cardputer_v1_0.ino.bootloader.bin",
+          "offset": 0
+        },
+        {
+          "path": "pipboy_cardputer_v1_0.ino.partitions.bin",
+          "offset": 32768
+        },
+        {
+          "path": "boot_app0.bin",
+          "offset": 57344
+        },
+        {
+          "path": "pipboy_cardputer_v1_0.ino.bin",
+          "offset": 65536
+        }
+      ]
+    }
+  ]
+}

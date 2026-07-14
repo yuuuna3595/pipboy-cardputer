@@ -1,9 +1,11 @@
 # Arduino / ESP32
 build/
 *.bin
+!firmware/*.bin
 *.elf
 *.map
 *.hex
+*.merged.bin
 
 # PlatformIO
 .pio/
