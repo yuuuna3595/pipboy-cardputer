@@ -1,0 +1,32 @@
+# Arduino / ESP32
+build/
+*.bin
+*.elf
+*.map
+*.hex
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Screenshots (runtime-generated on SD card)
+*.bmp
+/sd/
+
+# Secrets — user WiFi credentials go in NVS at runtime, not here
