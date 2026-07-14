@@ -1,6 +1,6 @@
 {
   "name": "pipboy-cardputer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "home_assistant_domain": "esphome",
   "new_install_prompt_erase": true,
   "builds": [
