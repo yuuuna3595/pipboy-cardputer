@@ -1,10 +1,10 @@
-# Pip-Boy 3000
+# pipboy-cardputer
 
 > ⚡ Vault-Tec 认证 · 一台会陪你慢慢变老的随身终端
 
 基于 **M5Stack Cardputer Adv** 的微型随身终端系统。1.14 寸屏幕 + 56 键键盘，记录时间、身体、装备与心情。不抢注意力，但永远不会忘记你的记录。
 
-![Pip-Boy 3000 Banner](images/01_cover.jpg)
+![pipboy-cardputer Banner](images/01_cover.jpg)
 
 ---
 
