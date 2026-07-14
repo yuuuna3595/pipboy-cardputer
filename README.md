@@ -62,12 +62,18 @@
 
 ## 🚀 快速开始
 
-### 开发环境
+### 方式一：浏览器一键烧录 (推荐)
+
+无需安装任何软件。打开 [烧录页面](https://raw.githubusercontent.com/yuuuna3595/pipboy-cardputer/master/index.html)，用 Chrome 或 Edge 浏览器，插上 USB-C 线，点击 Install 即可。
+
+> ⚠️ 首次使用需在浏览器弹窗中选择串口设备并授权。
+
+### 方式二：Arduino IDE (二次开发)
 
 - **Arduino IDE** (2.x 或更新)
 - ESP32-S3 开发板支持
 
-### 依赖库 (通过 Arduino Library Manager 安装)
+#### 依赖库 (通过 Arduino Library Manager 安装)
 
 ```
 - M5Cardputer
